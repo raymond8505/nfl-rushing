@@ -2,7 +2,7 @@ import React from "react";
 
 const PlayerRow = ({ player, columns, sortColumn }) => {
   const columnOrder = Object.keys(columns);
-
+  console.log(player);
   return (
     <tr className="PlayerRow">
       {columnOrder.map((col) => {
@@ -18,6 +18,9 @@ const PlayerRow = ({ player, columns, sortColumn }) => {
             key={`PlayerRow__column--${col}`}
           >
             {player[col]}
+            {col === "Lng" && player.LngTD ? (
+              <em aria-label="Resulted in a Touchdown">T</em>
+            ) : null}
           </td>
         );
       })}

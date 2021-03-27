@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App__header">
         <h1 className="App__title">
-          <span className="App__logo"></span>
+          <span className="App__logo" aria-label="The Score"></span>
           <span className="App__name">NFL Rushing</span>
         </h1>
       </header>

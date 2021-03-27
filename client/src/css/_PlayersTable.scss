@@ -4,6 +4,11 @@
   font-size: 0.875em;
   position: relative;
 
+  em {
+    font-style: normal;
+    color: $yellow_primary;
+  }
+
   th,
   td {
     text-align: left;
@@ -76,7 +81,7 @@ th.PlayersTable__cell {
   align-items: center;
 }
 .PlayersTable__control--page-num,
-.PlayersTable__control-per-page {
+.PlayersTable__control--per-page {
   width: 3em;
 }
 .PlayersTable__control-label {
@@ -90,4 +95,16 @@ th.PlayersTable__cell {
   border-left: 1px solid $faded_white;
   margin-left: 1em;
   padding-left: 1em;
+}
+.PlayersTable__control--download-btn {
+  width: 24px;
+  height: 24px;
+  line-height: 0;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  margin-left: 1em;
+  outline: none;
 }

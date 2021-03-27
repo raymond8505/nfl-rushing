@@ -18,23 +18,23 @@ body {
   );
 }
 
-a {
-  @include animated;
+// a {
+//   @include animated;
 
-  &,
-  &:link {
-    color: $blue_primary;
-    text-decoration: none;
-    border: 1px solid $blue_primary;
-  }
+//   &,
+//   &:link {
+//     color: $blue_primary;
+//     text-decoration: none;
+//     border: 1px solid $blue_primary;
+//   }
 
-  &:hover,
-  &:active,
-  &:focus {
-    color: $blue_light;
-    border-color: $blue_light;
-  }
-}
+//   &:hover,
+//   &:active,
+//   &:focus {
+//     color: $blue_light;
+//     border-color: $blue_light;
+//   }
+// }
 
 abbr[title] {
   text-decoration-color: $blue_primary;
