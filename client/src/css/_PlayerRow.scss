@@ -1,0 +1,14 @@
+.PlayerRow {
+  @include animated;
+
+  &:hover {
+    //opacity: 0.65;
+    color: $yellow_primary;
+  }
+}
+.PlayerRow:not(:last-child) td {
+  border-bottom: 1px solid rgba(white, 0.075);
+}
+.PlayersTable__filter {
+  width: 100%;
+}

@@ -1,0 +1,93 @@
+.PlayersTable {
+  width: 100%;
+  border-spacing: 0;
+  font-size: 0.875em;
+  position: relative;
+
+  th,
+  td {
+    text-align: left;
+    padding: $cell_padding;
+
+    &.PlayersTable__cell--number {
+      text-align: right;
+    }
+  }
+
+  thead th {
+    background-color: $background_body;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  tbody {
+    background: $background_header;
+    min-height: calc(100vh - 6vmin - 4em);
+  }
+}
+.PlayersTable__footer td {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  background-color: $background_body;
+}
+.PlayersTable__cell--sort-column {
+  background-color: $faded_white;
+}
+th.PlayersTable__cell {
+  padding-right: 1em;
+  position: relative;
+  cursor: pointer;
+  @include animated;
+
+  &:hover {
+    color: $yellow_primary;
+  }
+
+  &:after {
+    display: inline-block;
+    content: " ";
+    padding: 0.2em;
+    color: $yellow_primary;
+    position: absolute;
+    right: 0;
+    top: calc(50% - 1em);
+  }
+
+  &.PlayersTable__cell--sort-desc:after,
+  &.PlayersTable__cell--sort-asc:after {
+    content: "^";
+  }
+
+  &.PlayersTable__cell--sort-desc:after {
+    transform: rotate(180deg);
+  }
+}
+.PlayersTable__query-text {
+  color: $yellow_primary;
+  margin-left: 0.4em;
+  font-style: italic;
+}
+.PlayersTable__pagination-controls > div {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.PlayersTable__control--page-num,
+.PlayersTable__control-per-page {
+  width: 3em;
+}
+.PlayersTable__control-label {
+  margin-right: 0.4em;
+}
+.PlayersTable__control-label--slash {
+  margin: 0;
+  padding: 0 0.4em;
+}
+.PlayersTable__control-label--per-page {
+  border-left: 1px solid $faded_white;
+  margin-left: 1em;
+  padding-left: 1em;
+}

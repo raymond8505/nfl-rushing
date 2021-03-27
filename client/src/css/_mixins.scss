@@ -1,0 +1,38 @@
+/**
+* Adds transition to an element
+* @param [$property] - default all the property to animate
+* @param [$speed] - default 0.2s the transition speed
+* @param [$easing] - default $ease-in-out-quad (declared in _variables) the easing function to apply
+* @param [$delay] - default 0s the animation start delay
+*
+**/
+@mixin animated($property: all, $speed: 0.2s, $easing: null, $delay: 0s) {
+  @if ($easing == null) {
+    $easing: $ease_in_out_quad;
+  }
+  transition: $property $speed $easing $delay;
+}
+
+/**
+* Styles an element's scrollbar
+* @param [$width] - default 5px the width of the bar
+* @param [$bar-color] - default black the colour of the scroll handle
+* @param [$track-color] - default rgba(black, 0.25) the colour of the track under the handle
+*/
+@mixin scrollbar-style(
+  $width: 5px,
+  $bar-color: black,
+  $track-color: rgba(black, 0.25)
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $bar-color;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+  }
+}

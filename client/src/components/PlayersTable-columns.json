@@ -1,0 +1,62 @@
+{
+  "Player": {
+    "description": "Player's name",
+    "type": "string"
+  },
+  "Team": {
+    "description": "Player's team abbreviation",
+    "type": "string"
+  },
+  "Pos": {
+    "description": "Player's postion",
+    "type": "string"
+  },
+  "Att/G": {
+    "description": "Rushing Attempts Per Game Average",
+    "type": "number"
+  },
+  "Att": {
+    "description": "Rushing Attempts",
+    "type": "number"
+  },
+  "Yds": {
+    "description": "Total Rushing Yards",
+    "type": "number"
+  },
+  "Avg": {
+    "description": "Rushing Average Yards Per Attempt",
+    "type": "number"
+  },
+  "Yds/G": {
+    "description": "Rushing Yards Per Game",
+    "type": "number"
+  },
+  "TD": {
+    "description": "Total Rushing Touchdowns",
+    "type": "number"
+  },
+  "Lng": {
+    "description": "Longest Rush -- a T represents a touchdown occurred",
+    "type": "number"
+  },
+  "1st": {
+    "description": "Rushing First Downs",
+    "type": "number"
+  },
+  "1st%": {
+    "description": "Rushing First Down Percentage",
+    "type": "number"
+  },
+  "20+": {
+    "description": "Rushing 20+ Yards Each",
+    "type": "number"
+  },
+  "40+": {
+    "description": "Rushing 40+ Yards Each",
+    "type": "number"
+  },
+  "FUM": {
+    "description": "Rushing Fumbles",
+    "type": "number"
+  }
+}

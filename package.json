@@ -1,0 +1,26 @@
+{
+  "name": "nfl-rushing",
+  "version": "1.0.0",
+  "description": "At theScore, we are always looking for intelligent, resourceful, full-stack developers to join our growing team. To help us evaluate new talent, we have created this take-home interview question. This question should take you no more than a few hours.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd ./client && npm start",
+    "server": "json-server --watch ./server/rushing.json --port 4000 --delay 1000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raymond8505/nfl-rushing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raymond8505/nfl-rushing/issues"
+  },
+  "homepage": "https://github.com/raymond8505/nfl-rushing#readme",
+  "dependencies": {
+    "json-server": "^0.16.3",
+    "node-sass": "^5.0.0"
+  }
+}
