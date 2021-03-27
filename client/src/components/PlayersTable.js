@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, memo, useEffect } from "react";
 import Loader from "./Loader";
 import PlayerRow from "./PlayerRow";
-import { paramStr, makeCSVDataStr } from "../helpers";
+import { paramStr, makeCSVDataStr, browserSupportsDownload } from "../helpers";
 import downloadIcon from "../download.svg";
 
 const PlayersTable = ({
@@ -50,7 +50,6 @@ const PlayersTable = ({
     getPlayers(params).then((resp) => {
       const tot = resp.headers.get("X-Total-Count");
 
-      console.log(tot);
       if (tot !== null) {
         setTotalRows(tot);
       }
@@ -114,6 +113,7 @@ const PlayersTable = ({
       }
     });
   };
+
   return (
     <>
       <table className="PlayersTable">
@@ -211,14 +211,16 @@ const PlayersTable = ({
                   className="PlayersTable__control PlayersTable__control--per-page"
                   onChange={onPerPageChange}
                 />
-                <a
-                  href={rowsCSV}
-                  className="PlayersTable__control PlayersTable__control--download-btn"
-                  style={{
-                    backgroundImage: `url(${downloadIcon})`,
-                  }}
-                  download="NFL-Rushing-from-theScore.csv"
-                ></a>
+                {browserSupportsDownload && (
+                  <a
+                    href={rowsCSV}
+                    className="PlayersTable__control PlayersTable__control--download-btn"
+                    style={{
+                      backgroundImage: `url(${downloadIcon})`,
+                    }}
+                    download="NFL-Rushing-from-theScore.csv"
+                  ></a>
+                )}
               </div>
             </td>
           </tr>

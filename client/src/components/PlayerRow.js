@@ -2,7 +2,7 @@ import React from "react";
 
 const PlayerRow = ({ player, columns, sortColumn }) => {
   const columnOrder = Object.keys(columns);
-  console.log(player);
+
   return (
     <tr className="PlayerRow">
       {columnOrder.map((col) => {

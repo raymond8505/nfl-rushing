@@ -14,10 +14,11 @@ export const prepValForCSV = (val) => {
 
 export const CSV_EOL = "\r";
 
+export const browserSupportsDownload =
+  document.createElement("a").download !== "undefined";
+
 export const makeCSVDataStr = (columnNames, rows) => {
   let csv = columnNames.join(",") + CSV_EOL;
-
-  console.log(rows);
 
   csv += rows
     .map((row) => {
