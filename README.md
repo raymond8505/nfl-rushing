@@ -62,8 +62,14 @@ If you have any questions regarding requirements, do not hesitate to email your 
 
 ### Installation and running this solution
 
-1. Clone this repo
-2. Open 2 terminal windows in the directory
-3. Run `npm install` in either window
-4. once complete run `npm run server` in on window and `npm run client` in another
+1. Clone this repo.
+2. Open 2 terminal windows in the directory.
+3. Run `npm install` in either window.
+4. Once complete run `npm run server` in one window and `npm run client` in another.
 5. A new browser tab will open at localhost:3000 to show the first 16 players sorted by Player Name
+
+### Customizing
+
+Backend API is provided by [json-server](https://www.npmjs.com/package/json-server) running at port 4000. See their documentation for CLI and other customization options.
+
+API URL is in ./client/.env if you change the server port in the package script, you need to change it in the .env too.
