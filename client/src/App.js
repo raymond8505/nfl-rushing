@@ -1,6 +1,7 @@
 import "./App.scss";
 import PlayersTable from "./components/PlayersTable";
 import columns from "./components/PlayersTable-columns.json";
+import { memo } from "react";
 
 function App() {
   return (
@@ -18,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);

@@ -42,7 +42,7 @@
   background-color: $faded_white;
 }
 th.PlayersTable__cell {
-  padding-right: 1em;
+  padding-right: 1.3em;
   position: relative;
   cursor: pointer;
   @include animated;
@@ -53,7 +53,7 @@ th.PlayersTable__cell {
 
   &:after {
     display: inline-block;
-    content: " ";
+    content: "";
     padding: 0.2em;
     color: $yellow_primary;
     position: absolute;

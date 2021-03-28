@@ -4,9 +4,8 @@
   "description": "At theScore, we are always looking for intelligent, resourceful, full-stack developers to join our growing team. To help us evaluate new talent, we have created this take-home interview question. This question should take you no more than a few hours.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd ./client && npm start",
-    "server": "json-server --watch ./server/rushing.json --port 4000"
+    "server": "json-server --watch ./server/rushing.json --port 4000 --read-only --middlewares ./server/enable-cache-headers.js"
   },
   "repository": {
     "type": "git",

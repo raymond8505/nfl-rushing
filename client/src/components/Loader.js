@@ -1,25 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { memo } from "react";
 
-class Loader extends React.Component {
-  static propTypes = {
-    message: PropTypes.string,
-  };
-  static defaultProps = {
-    message: "",
-  };
+/**
+ * Simple loading spinner component with optional message
+ * @param {String} [message] an optional loading message to display with the spinner
+ */
+const Loader = ({ message }) => {
+  return (
+    <div className="Loader">
+      <div className="lds-dual-ring"></div>
+      {message !== "" && <h4 className="Loader__message">{message}</h4>}
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div className="Loader">
-        <div className="lds-dual-ring"></div>
-        {this.props.message !== "" ? (
-          <h4 className="Loader__message">{this.props.message}</h4>
-        ) : null}
-      </div>
-    );
-  }
-  loading;
-}
-
-export default Loader;
+export default memo(Loader);

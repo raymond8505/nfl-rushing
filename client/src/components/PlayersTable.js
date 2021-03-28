@@ -1,26 +1,18 @@
-import React, { useState, useRef, useCallback, memo, useEffect } from "react";
+import React, { useState, useRef, memo, useEffect, useMemo } from "react";
 import Loader from "./Loader";
 import PlayerRow from "./PlayerRow";
-import { paramStr, makeCSVDataStr, browserSupportsDownload } from "../helpers";
+import {
+  makeCSVDataStr,
+  browserSupportsDownload,
+  getPlayers,
+} from "../helpers";
 import downloadIcon from "../download.svg";
 
 const PlayersTable = ({
   columns, //the table's columns and their definitions
+  maxPerPage = 300, //the most rows a user can display in the table
 }) => {
-  const getPlayers = async (params = {}) => {
-    let url = process.env.REACT_APP_PLAYERS_API;
-
-    if (Object.keys(params).length > 0) {
-      url += `?${paramStr(params)}`;
-    }
-
-    const playersResult = await fetch(url);
-    //const playersJSON = await playersResult.json();
-
-    return playersResult;
-  };
-
-  const columnOrder = Object.keys(columns);
+  const columnOrder = useMemo(() => Object.keys(columns), [columns]);
 
   const [rows, setRows] = useState(null);
   const [sortCol, setSortCol] = useState(columnOrder[0]);
@@ -35,6 +27,7 @@ const PlayersTable = ({
   const debounceTimer = useRef(-1);
   const pageField = useRef(null);
 
+  //re-query the API if any sorting or display vars change
   useEffect(() => {
     const params = {
       _sort: sortCol,
@@ -48,30 +41,50 @@ const PlayersTable = ({
     }
 
     getPlayers(params).then((resp) => {
+      if (resp.headers === undefined) {
+        alert(`There was an error retrieving player data: ${resp.message}`);
+      }
+
+      //json-server puts the total count in a header,
+      //we need that to calculate the total pages
+      //for display
       const tot = resp.headers.get("X-Total-Count");
 
       if (tot !== null) {
         setTotalRows(tot);
+        setTotPages(Math.ceil(tot / perPage));
       }
 
       resp.json().then((data) => setRows(data));
     });
   }, [sortCol, sortDir, curPage, perPage, curFilter]);
 
+  //update the data string for download if rows or columns change
   useEffect(() => {
     if (rows !== null && rows.length > 0) {
       const dataStr = makeCSVDataStr(columnOrder, rows);
 
-      setRowsCSV(URL.createObjectURL(dataStr));
+      setRowsCSV(dataStr);
     }
-  }, [rows]);
+  }, [rows, columnOrder]);
 
+  /**
+   * Barebones debounce function for handling user generated events
+   * @param {Function} cb
+   * @param {Int} [delay] - default 250, ms to wait before firing the cb.
+   *                        250 is the average human response delay to visual stimulae
+   */
   const debounce = (cb, delay = 250) => {
     clearTimeout(debounceTimer.current);
 
     debounceTimer.current = setTimeout(cb, delay);
   };
 
+  /**
+   * Callback for when the user changes sort criteria
+   * if column remains the same, only toggle direction
+   * otherwise set dir to asc as well as the new column
+   */
   const handleSortChange = (colName) => {
     setRows(null);
 
@@ -83,6 +96,11 @@ const PlayersTable = ({
     }
   };
 
+  /**
+   * handles the onChange event for the search field
+   * nulls the rows, and sets the current page in anticipation of
+   * fresh data
+   */
   const onPlayerSearchChange = (e) => {
     debounce(() => {
       setRows(null);
@@ -92,18 +110,23 @@ const PlayersTable = ({
     });
   };
 
+  /**
+   * Handles when the user changes the page in the page number field
+   */
   const handlePageChange = (e) => {
     debounce(() => {
       let val = Number(Math.round(e.target.value));
-      const max = Math.ceil(totalRows / perPage);
 
-      if (val >= 1 && val <= max) {
+      if (val >= 1 && val <= totPages) {
         setRows(null);
         setCurPage(val);
       }
     });
   };
 
+  /**
+   * handles when the user changes the per page number
+   */
   const onPerPageChange = (e) => {
     debounce(() => {
       const val = Number(Math.round(e.target.value));
@@ -142,29 +165,34 @@ const PlayersTable = ({
           </tr>
         </thead>
 
-        {rows !== null && (
-          <tbody>
-            {rows.length === 0 ? (
-              <tr>
-                <td colSpan={columnOrder.length}>
-                  No Players found named
-                  <span className="PlayersTable__query-text">{curFilter}</span>
-                </td>
-              </tr>
-            ) : (
-              rows.map((row, i) => {
-                return (
-                  <PlayerRow
-                    player={row}
-                    sortColumn={sortCol}
-                    columns={columns}
-                    key={`PlayerRow--${i}`}
-                  />
-                );
-              })
-            )}
-          </tbody>
-        )}
+        {
+          //don't show the table body without rows, but we still want the header and footer
+          rows !== null && (
+            <tbody>
+              {rows.length === 0 ? (
+                <tr>
+                  <td colSpan={columnOrder.length}>
+                    No Players found named
+                    <span className="PlayersTable__query-text">
+                      {curFilter}
+                    </span>
+                  </td>
+                </tr>
+              ) : (
+                rows.map((row, i) => {
+                  return (
+                    <PlayerRow
+                      player={row}
+                      sortColumn={sortCol}
+                      columns={columns}
+                      key={`PlayerRow--${i}`}
+                    />
+                  );
+                })
+              )}
+            </tbody>
+          )
+        }
 
         <tfoot className="PlayersTable__footer">
           <tr>
@@ -193,13 +221,13 @@ const PlayersTable = ({
                   onChange={handlePageChange}
                   ref={pageField}
                   min={1}
-                  max={Math.ceil(totalRows / perPage)}
+                  max={totPages}
                 />
                 <span className="PlayersTable__control-label PlayersTable__control-label--slash">
                   /
                 </span>
                 <span className="PlayersTable__control-label PlayersTable__control-label--num-pages">
-                  {Math.ceil(totalRows / perPage)}
+                  {totPages}
                 </span>
                 <span className="PlayersTable__control-label PlayersTable__control-label--per-page">
                   Results Per Page:
@@ -207,6 +235,7 @@ const PlayersTable = ({
                 <input
                   type="number"
                   min={1}
+                  max={maxPerPage}
                   defaultValue={perPage}
                   className="PlayersTable__control PlayersTable__control--per-page"
                   onChange={onPerPageChange}
@@ -219,14 +248,21 @@ const PlayersTable = ({
                       backgroundImage: `url(${downloadIcon})`,
                     }}
                     download="NFL-Rushing-from-theScore.csv"
-                  ></a>
+                  >
+                    <span className="sr-only">
+                      Download table contents as CSV
+                    </span>
+                  </a>
                 )}
               </div>
             </td>
           </tr>
         </tfoot>
       </table>
-      {rows === null && <Loader />}
+      {
+        //show the loarder whenever rows are null
+        rows === null && <Loader />
+      }
     </>
   );
 };

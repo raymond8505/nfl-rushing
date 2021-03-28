@@ -1,7 +1,13 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 
+/**
+ * A row used in PlayerTable to display a given player's stats
+ * @param {Object} player - an object with player data returned from
+ * @param {Object} columns - the schema of the columns to display
+ * @param {String} sortColumn - the key of the column currently being used to sort the table
+ */
 const PlayerRow = ({ player, columns, sortColumn }) => {
-  const columnOrder = Object.keys(columns);
+  const columnOrder = useMemo(() => Object.keys(columns), [columns]);
 
   return (
     <tr className="PlayerRow">
@@ -28,4 +34,4 @@ const PlayerRow = ({ player, columns, sortColumn }) => {
   );
 };
 
-export default PlayerRow;
+export default memo(PlayerRow);
